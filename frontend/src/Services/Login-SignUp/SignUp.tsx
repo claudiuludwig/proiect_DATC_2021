@@ -10,8 +10,8 @@ function SignUp() {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Aici e sign up
+        <Button style={{marginRight:"10px"}} variant="primary" onClick={handleShow}>
+          Înscrie-te
         </Button>
   
         <Modal show={show} onHide={handleClose}>

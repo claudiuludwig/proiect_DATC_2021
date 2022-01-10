@@ -9,8 +9,8 @@ function Login() {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Aici e login
+        <Button style={{marginRight:"10px"}} variant="primary" onClick={handleShow}>
+          Login
         </Button>
   
         <Modal show={show} onHide={handleClose}>
@@ -46,6 +46,5 @@ function Login() {
       </>
     );
   }
-  
 
 export default Login
