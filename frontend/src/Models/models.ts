@@ -14,7 +14,8 @@ export interface MemberListItem
     memberName?: string;
     memberEmail?: string;
     memberPassword?: string;
+    memberCNP?: string;
     memberPoints?: number;
     memberCode?: number;
-    memberPhone?: number;
+    memberPhone?: string;
 }
