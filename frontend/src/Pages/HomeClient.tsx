@@ -1,10 +1,16 @@
 import React from 'react'
+import { TitleClients } from '../Components/TitleClients';
+import ClientFunctions from '../Functii Client/ClientFunctions';
 
-function HomeClient()
-{
-return (
-<>
-</>
-);
-}
-export default HomeClient
+export interface HomeClientProps {
+  }
+  
+  export const HomeClient = () => {
+  
+    return (
+      <>
+      <TitleClients />
+      <ClientFunctions/>
+      </>
+    );
+  }

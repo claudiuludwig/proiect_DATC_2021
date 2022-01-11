@@ -1,10 +1,15 @@
 import React from 'react'
+import { TitleClients } from '../Components/TitleClients';
 
-function HomeAdmin()
-{
-return (
-<>
-</>
-);
-}
-export default HomeAdmin
+export interface HomeAdminProps {
+  }
+  
+  export const HomeAdmin = () => {
+  
+    return (
+      <>
+      <TitleClients />
+      
+      </>
+    );
+  }

@@ -53,12 +53,12 @@ function SignUp() {
             <Row className="mb-3">
                 <Form.Group as={Col}>
                 <Form.Label>CNP</Form.Label>
-                <Form.Control />
+                <Form.Control placeholder="format din 13 cifre" />
                 </Form.Group>
 
                 <Form.Group as={Col}>
                 <Form.Label>Număr de telefon</Form.Label>
-                <Form.Control />
+                <Form.Control placeholder="format din 10 cifre" />
                 </Form.Group>
             </Row>
             </Form>

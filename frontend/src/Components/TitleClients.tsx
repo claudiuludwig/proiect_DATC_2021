@@ -2,17 +2,16 @@ import React from 'react'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
-import Login from '../Services/Login-SignUp-LogOut/Login';
-import SignUp from '../Services/Login-SignUp-LogOut/SignUp';
+import LogOut from '../Services/Login-SignUp-LogOut/LogOut'
 
-export interface TitleProps{
+export interface TitleClientsProps{
 
 }
 
 // eslint-disable-next-line no-empty-pattern
-export const Title = ({
+export const TitleClients = ({
 
-}: TitleProps) =>
+}: TitleClientsProps) =>
 {
 
     return(
@@ -25,8 +24,7 @@ export const Title = ({
         <Nav className="me-auto">
         </Nav>
         <Nav>
-            <Login />
-            <SignUp />
+            <LogOut />
         </Nav>
         </Navbar.Collapse>
         </Container>

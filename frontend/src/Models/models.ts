@@ -13,6 +13,7 @@ export interface MemberListItem
     memberFirstName?: string;
     memberName?: string;
     memberEmail?: string;
+    memberPassword?: string;
     memberPoints?: number;
     memberCode?: number;
     memberPhone?: number;
