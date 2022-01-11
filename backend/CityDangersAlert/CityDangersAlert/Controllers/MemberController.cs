@@ -1,60 +1,60 @@
-﻿using CityDangersAlert.Data;
-using CityDangersAlert.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using Newtonsoft.Json;
+using Team5StackWonder.Infrastructure;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 
-namespace CityDangersAlert.Controllers
+namespace Team5StackWonder.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MemberController : ControllerBase
-    {
-        private CityDangersAlertDBContext _dbContext;
-        public MemberController(CityDangersAlertDBContext _dbContext)
-        {
-            this._dbContext = _dbContext;
-        }
+	public class MemberController : Controller
+	{
+		private readonly IMemberRepository _memberRepository;
 
-        [HttpGet("GetMembers")]
-        public IActionResult Get()
-        {
-            try
-            {
-                var members = _dbContext.tblMembers.ToList();
-                if(members.Count == 0)
-                {
-                    return StatusCode(404, "No members found");
-                }
+		public MemberController(IMemberRepository memberRepository)
+		{
+			_memberRepository = memberRepository;
+		}
 
-                return Ok(members);
-            }
-            catch(Exception)
-            {
-                return StatusCode(500, "An error has occured");
-            }
-        }
+		[HttpGet("/members")]
+		public List<Member> GetMembers()
+		{
+			var members = new List<Member>();
+			try
+			{
+				members = _memberRepository.GetMembers().ToList();
+				return members;
+			}
+			catch (Exception ex)
+			{
+				return members;
+			}
+		}
 
-        [HttpPost("CreateMember")]
-        public IActionResult Create([FromBody] MemberRequest request)
-        {
-            return Ok();
-        }
-
-        [HttpPut("UpdateMember")]
-        public IActionResult Update([FromBody] MemberRequest request)
-        {
-            return Ok();
-        }
-
-        [HttpDelete("DeleteMember/{id}")]
-        public IActionResult Delete(int id)
-        {
-            return Ok();
-        }
-
-    }
+		[HttpPost("/members")]
+		public async Task<IActionResult> AddMember([FromBody] Member request)
+		{
+			try
+			{
+				var member = new Member()
+				{
+					memberName = request.memberName,
+					memberFirstName = request.memberFirstName,
+					memberCNP = request.memberCNP,
+					memberEmail = request.memberEmail,
+					memberPassword = request.memberPassword,
+					memberPhone = request.memberPhone
+				};
+				await _memberRepository.AddMember(member);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+	}
 }
