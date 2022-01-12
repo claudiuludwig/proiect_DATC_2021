@@ -1,17 +1,17 @@
-using CityDangersAlert.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace CityDangersAlert
 {
@@ -28,24 +28,28 @@ namespace CityDangersAlert
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CityDangersAlertDBContext>(options => options.UseSqlServer(connectionString));
-
-            services.AddSwaggerGen(c =>
+            //enable CORS ca requesturile sa fie servite
+            services.AddCors(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CityDangersAlert", Version = "v1" });
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling
+            = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+            = new DefaultContractResolver());
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //enable cors si aici
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CityDangersAlert v1"));
             }
 
             app.UseRouting();
@@ -55,6 +59,12 @@ namespace CityDangersAlert
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
+                RequestPath = "/Photos"
             });
         }
     }
